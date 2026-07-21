@@ -44,8 +44,7 @@ body::before {
   inset: -50%;
   width: 200%;
   height: 200%;
-  background:
-    radial-gradient(
+  background: radial-gradient(
       ellipse at 30% 20%,
       rgba(16, 185, 129, 0.04) 0%,
       transparent 50%
@@ -640,6 +639,53 @@ body::before {
 
 .streaming-cta:hover {
   color: #34d399;
+}
+
+/* ============ SMART SUGGESTIONS ============ */
+.suggestions-card {
+  background: linear-gradient(135deg, #0f1a2e 0%, #0d1520 100%);
+  border: 1px solid rgba(124, 58, 237, 0.3);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 14px;
+  animation: fadeInUp 0.4s ease;
+}
+
+.suggestions-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--purple);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.btn-icon-sm {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(124, 58, 237, 0.15);
+  border: none;
+  color: var(--purple);
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.btn-icon-sm:hover {
+  background: rgba(124, 58, 237, 0.3);
+}
+
+.suggestion-text {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.4;
 }
 
 /* ============ BALANCE CARD ============ */

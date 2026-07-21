@@ -4,6 +4,7 @@ class RootApp {
         this.wallet = new WalletManager();
         this.contracts = new ContractLayer(this.wallet);
         this.stream = new YieldStream();
+        this.suggestions = new SmartSuggestions(); // ✅ New
         this.bridge = null;
         this.history = [];
         this.autoRefreshInterval = null;
@@ -155,6 +156,11 @@ class RootApp {
         $('compound-btn')?.addEventListener('click', () => this.executeCompound());
         $('quick-compound')?.addEventListener('click', () => this.executeCompound());
 
+        // ✅ Dismiss smart suggestion
+        $('dismiss-suggestion')?.addEventListener('click', () => {
+            this.suggestions.dismiss();
+        });
+
         // Streaming CTA
         const streamingCta = document.querySelector('.streaming-cta');
         if (streamingCta) {
@@ -283,6 +289,14 @@ class RootApp {
             setText('earned-stat', '$0.00');
             this.stream.stop();
             this.stream.showEmpty();
+        }
+
+        // ✅ Show smart suggestion (async)
+        const suggestionText = await this.suggestions.generate(position);
+        if (suggestionText) {
+            this.suggestions.show(suggestionText);
+        } else {
+            this.suggestions.hide();
         }
 
         // Update history
