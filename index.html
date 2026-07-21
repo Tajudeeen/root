@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ROOT — Watch Your Crypto Grow</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<!-- ONBOARDING SCREEN -->
+<div id="onboarding-screen" class="screen active">
+    <div class="container">
+        <div class="onboarding-content">
+            <div class="logo-section">
+                <div class="logo-glow">🌱</div>
+                <h1 class="logo-text">ROOT</h1>
+                <p class="tagline">Watch your crypto grow in real-time</p>
+            </div>
+            
+            <div class="feature-list">
+                <div class="feature-item">
+                    <div class="feature-icon-box green">🌊</div>
+                    <div class="feature-text">
+                        <strong>Live Yield Streaming</strong>
+                        <span>Watch every wei flow into your wallet, every second</span>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon-box purple">🔒</div>
+                    <div class="feature-text">
+                        <strong>Non-Custodial</strong>
+                        <span>Plant your capital. You keep the keys. Always.</span>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon-box amber">🌾</div>
+                    <div class="feature-text">
+                        <strong>Harvest Anytime</strong>
+                        <span>Up to 12.5% APY. Withdraw freely. No lockups.</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="wallet-connect-area">
+                <button id="connect-wallet-btn" class="btn-connect">
+                    🌱 Plant Your Capital
+                </button>
+                <p id="wallet-status-msg" class="wallet-status"></p>
+            </div>
+            
+            <div class="network-badge">
+                <span class="network-dot"></span>
+                Sepolia Testnet
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- DASHBOARD SCREEN -->
+<div id="dashboard-screen" class="screen">
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="wallet-badge" id="wallet-address" title="Click to copy">
+                <div class="wallet-dot"></div>
+                0x0000...0000
+            </div>
+            <div class="header-actions">
+                <button class="btn-icon" id="refresh-btn" title="Refresh">🔄</button>
+                <button class="btn-icon" id="disconnect-btn" title="Disconnect">🚪</button>
+            </div>
+        </div>
+
+        <!-- Live Yield Streaming Card -->
+        <div class="streaming-card">
+            <div class="streaming-label">
+                <span class="live-dot"></span>
+                Live Yield Streaming
+            </div>
+            <div class="streaming-amount" id="streaming-yield">0.00000000 ETH</div>
+            <div class="streaming-rate">
+                Streaming <span id="per-second-rate">0.00000000</span> ETH/second
+            </div>
+            <div id="streaming-empty" class="streaming-empty hidden">
+                <p>No active position</p>
+                <span class="streaming-cta">Plant capital to start streaming →</span>
+            </div>
+        </div>
+
+        <!-- Balance Card -->
+        <div class="balance-card">
+            <p class="balance-label">Total Balance</p>
+            <h2 class="balance-amount" id="total-balance">0.0000 ETH</h2>
+            <p class="balance-usd" id="balance-usd">$0.00</p>
+            <div class="balance-stats">
+                <div class="stat-item">
+                    <div class="stat-value" id="deposited-stat">0.00</div>
+                    <div class="stat-label">Planted</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value green" id="earned-stat">$0.00</div>
+                    <div class="stat-label">Growth</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value green" id="apy-stat">12.5%</div>
+                    <div class="stat-label">APY</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Position Card -->
+        <div class="position-card">
+            <div class="position-header">
+                <span class="position-title">Your Root Position</span>
+                <span class="apy-badge" id="apy-badge">⚡ 12.5% APY</span>
+            </div>
+
+            <div id="empty-position" class="empty-position">
+                <div class="big-icon">🌱</div>
+                <p style="font-size:14px;color:var(--text-secondary);">No active position</p>
+                <p style="font-size:12px;">Plant ETH to start growing</p>
+            </div>
+
+            <div id="active-position" class="hidden">
+                <div class="position-grid">
+                    <div class="detail-card">
+                        <div class="value" id="deposited-amount">0.00 ETH</div>
+                        <div class="lbl">Planted</div>
+                    </div>
+                    <div class="detail-card">
+                        <div class="value green" id="earned-amount">+0.00 ETH</div>
+                        <div class="lbl">Growth</div>
+                    </div>
+                </div>
+
+                <div class="progress-section">
+                    <div class="progress-header">
+                        <span>Growth Progress</span>
+                        <span id="progress-pct">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+                    </div>
+                </div>
+
+                <div class="btn-row">
+                    <button class="btn btn-primary" id="add-more-btn">+ Plant More</button>
+                    <button class="btn btn-secondary" id="compound-btn">🔄 Compound</button>
+                </div>
+                <button class="btn btn-danger" id="withdraw-all-btn">Harvest All & Uproot</button>
+            </div>
+        </div>
+
+        <!-- Tab Bar -->
+        <div class="tab-bar">
+            <button class="tab-btn active" data-tab="actions">Actions</button>
+            <button class="tab-btn" data-tab="history">History</button>
+            <button class="tab-btn" data-tab="bridge">Bridge</button>
+        </div>
+
+        <!-- Actions Tab -->
+        <div id="tab-actions" class="tab-content active">
+            <div class="quick-actions-grid">
+                <button class="quick-action-btn" id="quick-deposit">
+                    <span class="quick-action-icon">💰</span>Plant
+                </button>
+                <button class="quick-action-btn" id="quick-compound">
+                    <span class="quick-action-icon">🔄</span>Compound
+                </button>
+                <button class="quick-action-btn" id="quick-withdraw">
+                    <span class="quick-action-icon">💸</span>Harvest
+                </button>
+                <button class="quick-action-btn" id="quick-bridge">
+                    <span class="quick-action-icon">🌉</span>Bridge
+                </button>
+            </div>
+        </div>
+
+        <!-- History Tab -->
+        <div id="tab-history" class="tab-content">
+            <div class="filter-row">
+                <button class="filter-pill active" data-filter="all">All</button>
+                <button class="filter-pill" data-filter="deposit">Planted</button>
+                <button class="filter-pill" data-filter="withdraw">Harvested</button>
+                <button class="filter-pill" data-filter="reward">Growth</button>
+            </div>
+            <div id="history-list">
+                <div class="empty-state">
+                    <span class="empty-icon">📜</span>
+                    <p>No history yet</p>
+                    <p class="text-muted">All transactions appear here from the blockchain</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bridge Tab -->
+        <div id="tab-bridge" class="tab-content">
+            <div class="mode-toggle">
+                <button class="mode-btn active" data-mode="bridge">🌉 Bridge</button>
+                <button class="mode-btn" data-mode="swap">💱 Swap</button>
+            </div>
+
+            <div id="bridge-section">
+                <div class="bridge-card">
+                    <div class="bridge-label"><span>From</span></div>
+                    <div class="chain-select" id="from-chain-display">
+                        <span class="chain-icon-lg">🔷</span>
+                        <div><span class="chain-name">Sepolia</span><span class="chain-net">Testnet</span></div>
+                        <span style="margin-left:auto;color:var(--text-muted);">▼</span>
+                    </div>
+                    <div class="amount-row">
+                        <input type="number" class="amount-input" id="bridge-input" placeholder="0.00" step="0.001">
+                        <div class="token-select" id="bridge-token-display"><span>💎</span> ETH ▼</div>
+                    </div>
+                    <div class="quick-row">
+                        <button class="quick-amt" data-amt="0.01">0.01</button>
+                        <button class="quick-amt" data-amt="0.05">0.05</button>
+                        <button class="quick-amt" data-amt="0.1">0.1</button>
+                        <button class="quick-amt" data-amt="0.5">0.5</button>
+                    </div>
+                </div>
+                <div style="text-align:center;margin:-6px 0;">
+                    <button class="switch-circle" id="switch-chains-btn">⇅</button>
+                </div>
+                <div class="bridge-card">
+                    <div class="bridge-label"><span>To (Estimated)</span></div>
+                    <div class="chain-select" id="to-chain-display">
+                        <span class="chain-icon-lg">🔶</span>
+                        <div><span class="chain-name">Goerli</span><span class="chain-net">Testnet</span></div>
+                        <span style="margin-left:auto;color:var(--text-muted);">▼</span>
+                    </div>
+                    <div class="receive-display" id="bridge-receive">0.00 ETH</div>
+                </div>
+                <div class="bridge-info">
+                    <div class="info-row"><span>Gas</span><span id="bridge-gas">~0.003 ETH</span></div>
+                    <div class="info-row"><span>Time</span><span>~5-10 min</span></div>
+                    <div class="info-row"><span>Fee</span><span>0.1%</span></div>
+                </div>
+                <button class="btn btn-primary" id="execute-bridge-btn" disabled style="width:100%;margin-top:10px;">🌉 Bridge Tokens</button>
+            </div>
+
+            <div id="swap-section" class="hidden">
+                <div class="bridge-card">
+                    <div class="bridge-label"><span>You Pay</span></div>
+                    <div class="amount-row">
+                        <input type="number" class="amount-input" id="swap-input" placeholder="0.00" step="0.001">
+                        <div class="token-select" id="swap-from-display"><span>💎</span> ETH ▼</div>
+                    </div>
+                </div>
+                <div style="text-align:center;margin:-6px 0;">
+                    <button class="switch-circle" id="switch-tokens-btn">⇅</button>
+                </div>
+                <div class="bridge-card">
+                    <div class="bridge-label"><span>You Receive</span></div>
+                    <div class="amount-row">
+                        <div class="receive-display" id="swap-receive">0.00 USDC</div>
+                        <div class="token-select" id="swap-to-display"><span>💵</span> USDC ▼</div>
+                    </div>
+                </div>
+                <div class="bridge-info">
+                    <div class="info-row"><span>Rate</span><span id="swap-rate">-</span></div>
+                    <div class="info-row"><span>Network</span><span>Sepolia</span></div>
+                    <div class="info-row"><span>Gas</span><span id="swap-gas">~0.002 ETH</span></div>
+                </div>
+                <button class="btn btn-primary" id="execute-swap-btn" disabled style="width:100%;margin-top:10px;">💱 Swap Tokens</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Deposit Modal -->
+<div class="modal-overlay" id="deposit-modal">
+    <div class="modal-sheet">
+        <div class="modal-header">
+            <h3>Plant ETH</h3>
+            <button class="modal-close" id="close-deposit">✕</button>
+        </div>
+        <div style="display:flex;gap:6px;margin-bottom:14px;">
+            <button class="quick-amt" data-amt="0.01" style="padding:10px;">0.01 ETH</button>
+            <button class="quick-amt" data-amt="0.05" style="padding:10px;">0.05 ETH</button>
+            <button class="quick-amt" data-amt="0.1" style="padding:10px;">0.1 ETH</button>
+        </div>
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 15px;display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+            <input type="number" id="deposit-amount-input" placeholder="0.00" step="0.001" style="flex:1;background:none;border:none;color:var(--text);font-size:20px;font-weight:600;outline:none;font-family:var(--font);">
+            <button id="max-deposit-btn" style="background:var(--green);color:#000;border:none;padding:7px 13px;border-radius:8px;cursor:pointer;font-weight:700;font-size:12px;font-family:var(--font);">MAX</button>
+        </div>
+        <p style="font-size:11px;color:var(--text-muted);margin-bottom:12px;">Balance: <span id="deposit-balance">0.00 ETH</span> • Min: 0.001 ETH</p>
+        <div style="background:var(--card);border-radius:12px;padding:14px;text-align:center;margin-bottom:12px;">
+            <p style="color:var(--text-secondary);font-size:12px;">Estimated Yearly Growth</p>
+            <p style="color:var(--green);font-size:22px;font-weight:700;">+<span id="estimated-yield">0.00</span> ETH</p>
+        </div>
+        <button class="btn btn-primary" id="confirm-deposit" style="width:100%;">🌱 Plant & Start Streaming</button>
+        <p id="deposit-error" style="color:var(--red);text-align:center;margin-top:8px;font-size:12px;" class="hidden"></p>
+    </div>
+</div>
+
+<!-- Transaction Modal -->
+<div class="modal-overlay" id="tx-modal">
+    <div class="modal-sheet tx-center">
+        <div id="tx-loading">
+            <div class="spinner"></div>
+            <h4 style="margin-bottom:6px;">Processing</h4>
+            <p style="color:var(--text-secondary);font-size:13px;" id="tx-message">Please wait...</p>
+        </div>
+        <div id="tx-done" class="hidden">
+            <div style="font-size:44px;margin:12px 0;" id="tx-icon">✅</div>
+            <h4 style="margin-bottom:6px;" id="tx-title">Confirmed</h4>
+            <p style="color:var(--text-secondary);font-size:13px;margin-bottom:10px;" id="tx-detail"></p>
+            <a id="tx-link" href="#" target="_blank" style="color:var(--green);font-size:12px;">View on Etherscan ↗</a>
+        </div>
+        <button class="btn btn-primary" id="close-tx" style="width:100%;margin-top:14px;">Done</button>
+    </div>
+</div>
+
+<!-- Chain Selector Modal -->
+<div class="modal-overlay" id="chain-modal">
+    <div class="modal-sheet">
+        <div class="modal-header">
+            <h3>Select Chain</h3>
+            <button class="modal-close" id="close-chain">✕</button>
+        </div>
+        <div id="chain-options"></div>
+    </div>
+</div>
+
+<!-- Token Selector Modal -->
+<div class="modal-overlay" id="token-modal">
+    <div class="modal-sheet">
+        <div class="modal-header">
+            <h3>Select Token</h3>
+            <button class="modal-close" id="close-token">✕</button>
+        </div>
+        <div id="token-options"></div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/wallet.js"></script>
+<script src="js/contracts.js"></script>
+<script src="js/stream.js"></script>
+<script src="js/bridge.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
