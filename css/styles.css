@@ -1466,3 +1466,25 @@ body::before {
     margin: 20px;
   }
 }
+
+/* Chain dot indicators (replaces emoji) */
+.chain-dot {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #627eea; /* default */
+}
+.chain-dot.sepolia { background: #627eea; }   /* blue-ish */
+.chain-dot.goerli  { background: #f6a623; }   /* orange */
+.chain-dot.mumbai  { background: #8247e5; }   /* purple */
+.chain-dot.bsctest { background: #f0b90b; }   /* yellow */
+
+/* Ensure Font Awesome icons inherit color and line-height */
+i.fa-solid, i.fa-regular, i.fa-brands {
+    font-size: inherit;
+    vertical-align: middle;
+}
+.btn i, .quick-action-btn i {
+    margin-right: 0.3em;
+}
